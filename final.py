@@ -56,14 +56,6 @@ def data_(filename):
     d_t["Canada"] = pd.to_numeric(d_t["Canada"])
     d_t = d_t.dropna()
     return d_t,data
-def linfunc(x, a, b):
-    """
-    Function for fitting
-    x: independent variable
-    a, b: parameters to be fitted
-    y = a*x + b
-    return y
-    """
 def exp_(t,n0, g):
     """
     Calculates the logistic function with scale factor n0 and growth rate g
@@ -71,13 +63,6 @@ def exp_(t,n0, g):
     """
     t = t - 1960.0
     f = n0 * np.exp(g*t)
-    return f
-def log_(t, scale, growth, t0):
-    """
-    Computes logistics function with scale, growth raat
-    and time of the turning point as free parameters
-    """
-    f = scale / (1.0 + np.exp(-growth * (t - t0)))
     return f
 def set_mat(country):
     """
@@ -91,18 +76,21 @@ bdata,borg = data_("D:\\applaid_last_prj\\data_set\\Birth rate, crude (per 1,000
 pop,poporg = data_("D:\\applaid_last_prj\\data_set\\Population, total.csv")
 EPC,EPC_org = data_("D:\\applaid_last_prj\\data_set\\Electric power consumption (kWh per capita).csv")
 co2_emmission,co2_emmission_org = data_("D:\\applaid_last_prj\\data_set\\CO2 emissions (kt).csv")
+# creating behrain as a dataframe and adding another indicators to it
 Bahrain = pd.DataFrame()
 Bahrain["Year"] = bdata["year"]
 Bahrain["Population_total"] = pop["Bahrain"]
 Bahrain["Electric_power_consumption"] = EPC["Bahrain"]
 Bahrain["co2_emission"] = co2_emmission["Bahrain"]
 Bahrain = Bahrain.iloc[30:60,:]
+# creating Brazil as a dataframe and adding another indicators to it
 Brazil = pd.DataFrame()
 Brazil["Year"] = bdata["year"]
 Brazil["Population_total"] = pd.to_numeric(pop["Brazil"])
 Brazil["Electric_power_consumption"] = EPC["Brazil"]
 Brazil["co2_emission"] = co2_emmission["Brazil"]
 Brazil = Brazil.iloc[30:69,:]
+# creating Canada as a dataframe and adding another indicators to it
 Canada = pd.DataFrame()
 Canada["Year"] = bdata["year"]
 Canada["Population_total"] = pd.to_numeric(pop["Canada"])
@@ -138,6 +126,7 @@ km_c = kmean.cluster_centers_
 col = ["Electric_power_consumption","co2_emission"]
 labels = pd.DataFrame(label,columns=['Cluster ID'])
 result = pd.DataFrame(cl,columns=col)
+# concat result and labels
 res = pd.concat((result,labels),axis=1)
 plt.figure()
 plt.title("BAHRAIN Electric_power_consumption vs co2_emission ")
