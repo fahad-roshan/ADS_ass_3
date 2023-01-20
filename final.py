@@ -128,12 +128,13 @@ labels = pd.DataFrame(label,columns=['Cluster ID'])
 result = pd.DataFrame(cl,columns=col)
 # concat result and labels
 res = pd.concat((result,labels),axis=1)
+# plotting the cluster
 plt.figure()
 plt.title("BAHRAIN Electric_power_consumption vs co2_emission ")
 plt.scatter(res["Electric_power_consumption"],res["co2_emission"],c=label,cmap="jet")
 plt.xlabel("Electric_power_consumption")
 plt.ylabel("co2_emission")
-# plotting centers for clusters
+# plotting centers of clusters
 for ic in range(2):
     xc, yc = km_c[ic,:]
     plt.plot(xc, yc, "dk", markersize=7,c="black")
@@ -141,11 +142,16 @@ plt.show()
 
 # kmean clustering Brazil
 kmean = cluster.KMeans(n_clusters=2,max_iter=30)
+# reshaping 
 ptlg = np.array(Brazil["Electric_power_consumption"]).reshape(-1,1)
 spe = np.array(Brazil["co2_emission"]).reshape(-1,1)
+# concatinte 
 cl = np.concatenate((ptlg,spe),axis=1)
+# fitting the model
 kmean = kmean.fit(cl)
+# assignining the label
 label = kmean.labels_
+# finding the centers of cluster
 km_c = kmean.cluster_centers_
 col = ["Electric_power_consumption","co2_emission"]
 labels = pd.DataFrame(label,columns=['Cluster ID'])
@@ -163,16 +169,23 @@ plt.show()
 
 # kmean clustering Canada
 kmean = cluster.KMeans(n_clusters=2,max_iter=30)
+# reshaping 
 ptlg = np.array(Canada["Electric_power_consumption"]).reshape(-1,1)
+# reshaping 
 spe = np.array(Canada["co2_emission"]).reshape(-1,1)
+# concatinate
 cl = np.concatenate((ptlg,spe),axis=1)
+# fitting the model
 kmean = kmean.fit(cl)
+# assignining the label
 label = kmean.labels_
+# finding the centers of cluster
 km_c = kmean.cluster_centers_
 col = ["Electric_power_consumption","co2_emission"]
 labels = pd.DataFrame(label,columns=['Cluster ID'])
 result = pd.DataFrame(cl,columns=col)
 res = pd.concat((result,labels),axis=1)
+# plotting the cluster
 plt.figure()
 plt.title("CANADA Electric_power_consumption vs co2_emission ")
 plt.scatter(res["Electric_power_consumption"],res["co2_emission"],c=label,cmap="jet")
@@ -204,6 +217,7 @@ plt.show()
 plt.figure()
 plt.title("CO2 emission of Bahrain")
 plt.plot(Bahrain["Year"],Bahrain["NORM_CO2_emission"],label="benin")
+# taking some extra years for prediction
 pred_year = np.arange(1990,2040)
 bpred = exp_(pred_year,*param)
 plt.plot(pred_year,bpred,label="prediction")
